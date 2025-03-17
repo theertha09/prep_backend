@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     "django.contrib.sitemaps",
     'rest_framework',
     'blog',
+    'contactus',
+    
 ]
 
 MIDDLEWARE = [
