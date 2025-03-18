@@ -42,8 +42,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'blog',
     'contactus',
-
-]
+    'course',
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
