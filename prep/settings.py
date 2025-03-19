@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "django.contrib.sitemaps",
     'corsheaders',
     'rest_framework',
+    'drf_yasg',
     'blog',
     'contactus',
     'course',
