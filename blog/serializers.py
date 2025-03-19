@@ -13,3 +13,5 @@ class BlogCardSerializers(serializers.ModelSerializer):
         model = BlogCard
         fields = ['id', 'title', 'category', 'category_name', 'image', 'description']
 
+
+
