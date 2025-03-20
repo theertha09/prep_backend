@@ -15,6 +15,6 @@ class FormSubmission(models.Model):
     email = models.EmailField(unique=True)
     preferred_program = models.ForeignKey(PreferredProgram, on_delete=models.CASCADE)
     submitted_at = models.DateTimeField(auto_now_add=True)
-
+    college_studied = models.CharField(max_length=255)
     def __str__(self):
         return self.full_name
