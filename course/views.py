@@ -21,3 +21,8 @@ class FormSubmissionListView(generics.ListAPIView):
 class PreferredProgramListCreateView(generics.ListCreateAPIView):
     queryset = PreferredProgram.objects.all()
     serializer_class = PreferredProgramSerializer
+
+class PreferredProgramRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = PreferredProgram.objects.all()
+    serializer_class = PreferredProgramSerializer
+    lookup_field = 'id'
