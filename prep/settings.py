@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'blog',
     'contactus',
     'course',
+    'home',
 ]
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
