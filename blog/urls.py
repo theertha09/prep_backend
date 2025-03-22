@@ -9,5 +9,4 @@ urlpatterns = [
     path("blogcard/<int:pk>/",blogCardRetrieveUpdateDestroyAPIView.as_view(),name="blogs-retrieve-update-destroy"),
     path("blogmeta/",MetaTagsBlogListCreateAPIView.as_view(),name="blog-meta-list-create"),
     path("blogmeta/<int:pk>/",MetaTagsBlogRetrieveUpdateDestroyAPIView.as_view(),name="blog-meta-retrieve-update-destroy"),
-    
-]
+
