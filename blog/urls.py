@@ -10,3 +10,4 @@ urlpatterns = [
     path("blogmeta/",MetaTagsBlogListCreateAPIView.as_view(),name="blog-meta-list-create"),
     path("blogmeta/<int:pk>/",MetaTagsBlogRetrieveUpdateDestroyAPIView.as_view(),name="blog-meta-retrieve-update-destroy"),
 
+]
