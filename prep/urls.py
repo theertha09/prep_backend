@@ -42,6 +42,7 @@ urlpatterns = [
     path('api/',include("contactus.urls")),
     path('api/',include("course.urls")),
     path('api/',include("home.urls")),
+    path('api/',include("aboutus.urls")),
 
     re_path(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     re_path(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
