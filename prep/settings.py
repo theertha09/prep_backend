@@ -63,7 +63,8 @@ CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://localhost:5176",
-    "http://localhost:5173"
+    "http://localhost:5173",
+    "https://prep-backend-ho9l.onrender.com",
 ]
 
 ROOT_URLCONF = 'prep.urls'
