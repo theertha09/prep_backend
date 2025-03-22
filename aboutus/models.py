@@ -51,3 +51,12 @@ class MetaTagsAboutUs(models.Model):
     def __str__(self):
         return self.title or "MetaTagsHome Entry"
 
+
+class Trialclass(models.Model):
+    full_name = models.CharField(max_length=255)
+    mobile_number = models.CharField(max_length=15)
+    email = models.EmailField(unique=True)
+    class_type = models.CharField(max_length=255)
+    school_college = models.CharField(max_length=255)
+    def __str__(self):
+        return self.full_name
