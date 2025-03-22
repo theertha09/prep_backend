@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'contactus',
     'course',
     'home',
+    'aboutus',
 ]
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
