@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import BlogCategory,BlogCard
+from .models import BlogCategory,BlogCard,MetaTagsBlog
 
 class BlogCategorySerializers(serializers.ModelSerializer):
     class Meta:
@@ -13,5 +13,8 @@ class BlogCardSerializers(serializers.ModelSerializer):
         model = BlogCard
         fields = ['id', 'title', 'category', 'category_name', 'image', 'description']
 
-
+class MetaTagsBlogSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MetaTagsBlog
+        fields = "__all__"
 
