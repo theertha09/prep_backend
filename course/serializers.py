@@ -1,6 +1,6 @@
 # serializers.py
 from rest_framework import serializers
-from .models import FormSubmission, PreferredProgram
+from .models import FormSubmission, PreferredProgram,MetaTagsCourse
 
 class PreferredProgramSerializer(serializers.ModelSerializer):
     class Meta:
@@ -12,3 +12,7 @@ class FormSubmissionSerializer(serializers.ModelSerializer):
         model = FormSubmission
         fields = '__all__'
 
+class MetaTagsCourseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MetaTagsCourse
+        fields = "__all__"
