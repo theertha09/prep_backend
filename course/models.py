@@ -35,7 +35,7 @@ class MetaTagsCourse(models.Model):
 
     # Image Optimization
     image_alt_text = models.CharField(max_length=255, null=True, blank=True)
-    image_filename = models.ImageField(upload_to='seo_home_images/', null=True, blank=True)
+    image_filename = models.ImageField(upload_to='seo_course_images/', null=True, blank=True)
 
     # Internal & External Links
     internal_links = models.TextField(null=True, blank=True)  # Store as JSON or comma-separated values
@@ -49,12 +49,12 @@ class MetaTagsCourse(models.Model):
     # Open Graph (OG) & Twitter Card
     og_title = models.CharField(max_length=255, null=True, blank=True)
     og_description = models.TextField(null=True, blank=True)
-    og_image = models.ImageField(upload_to='seo_home_images/', null=True, blank=True)
+    og_image = models.ImageField(upload_to='seo_course_images/', null=True, blank=True)
 
     twitter_card = models.CharField(max_length=50, null=True, blank=True)
     twitter_title = models.CharField(max_length=255, null=True, blank=True)
     twitter_description = models.TextField(null=True, blank=True)
-    twitter_image = models.ImageField(upload_to='seo_home_images/', null=True, blank=True)
+    twitter_image = models.ImageField(upload_to='seo_course_images/', null=True, blank=True)
 
     # Indexing & Crawling Options
     noindex = models.BooleanField(default=False)  # Avoid null=True
@@ -65,5 +65,5 @@ class MetaTagsCourse(models.Model):
     lazy_load_images = models.BooleanField(default=False)  # BooleanField to enable/disable lazy loading
 
     def __str__(self):
-        return self.title or "MetaTagsHome Entry"
+        return self.title or "MetaTagscourse Entry"
 
