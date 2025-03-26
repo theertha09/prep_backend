@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-%g=-eifwgyzej@d(bhvf)ze$m&*5zn@ily6az+n%=u1zx$ehyu
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -63,7 +63,8 @@ CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://localhost:5176",
-    "http://localhost:5173"
+    "http://localhost:5173",
+    "https://prep-backend-ho9l.onrender.com",
 ]
 
 ROOT_URLCONF = 'prep.urls'
