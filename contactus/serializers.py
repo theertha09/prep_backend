@@ -7,7 +7,6 @@ class ContactSerializers(serializers.ModelSerializer):
         fields ='__all__'
         
 
-
 class Contact_metadataSerializers(serializers.ModelSerializer):
     class Meta:
         model   =   MetaTagsContacts
