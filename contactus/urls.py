@@ -5,7 +5,7 @@ urlpatterns = [
     path('contact/<int:pk>/',ContactRetrieveUpdateDestroyAPIView.as_view(),name="contact-retrieve-update-destroy"),
         # End points for contacts page metadata.
     path('contactmeta/',ContactMetaListcreateAPIView.as_view(),name='contactmeta-list-create'),
-    path('contactmetall/',ContactMetaRetrieveUpdateDestroyAPIView.as_view(),name='contactmeta-retrieve-update-destroy'),
+    path('contactmeta/<int:pk>/',ContactMetaRetrieveUpdateDestroyAPIView.as_view(),name='contactmeta-retrieve-update-destroy'),
 
 
 ]
