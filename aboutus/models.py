@@ -54,7 +54,7 @@ class MetaTagsAboutUs(models.Model):
 
 class Trialclass(models.Model):
     full_name = models.CharField(max_length=255)
-    mobile_number = models.CharField(max_length=15)
+    mobile_number = models.TextField(max_length=15)
     email = models.EmailField(unique=True)
     class_type = models.CharField(max_length=255)
     school_college = models.CharField(max_length=255)
