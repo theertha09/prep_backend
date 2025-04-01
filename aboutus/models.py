@@ -58,9 +58,9 @@ class Trialclass(models.Model):
     email = models.EmailField(unique=True)
     class_type = models.CharField(max_length=255)
     school_college = models.CharField(max_length=255)
-    question1 = models.TextField()
-    question2 = models.TextField()
-    question3 = models.TextField()
-    answers = models.TextField()
+    question1 = models.TextField(blank=True, null=True)
+    question2 = models.TextField(blank=True, null=True)
+    question3 = models.TextField(blank=True, null=True)
+    answers = models.TextField(blank=True, null=True)
     def __str__(self):
         return self.full_name
