@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import generics
-from .models import FormSubmission, PreferredProgram,MetaTagsCourse
-from .serializers import FormSubmissionSerializer, PreferredProgramSerializer,MetaTagsCourseSerializer
+from .models import FormSubmission,MetaTagsCourse
+from .serializers import FormSubmissionSerializer,MetaTagsCourseSerializer
 
 class FormSubmissionCreateView(generics.CreateAPIView):
     queryset = FormSubmission.objects.all()
@@ -15,15 +15,6 @@ class FormSubmissionRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIV
 class FormSubmissionListView(generics.ListAPIView):
     queryset = FormSubmission.objects.all()
     serializer_class = FormSubmissionSerializer
-
-class PreferredProgramListCreateView(generics.ListCreateAPIView):
-    queryset = PreferredProgram.objects.all()
-    serializer_class = PreferredProgramSerializer
-
-class PreferredProgramRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = PreferredProgram.objects.all()
-    serializer_class = PreferredProgramSerializer
-    lookup_field = 'id'
 
 class MetaTagsCourseListCreateAPIView(generics.ListCreateAPIView):
     queryset = MetaTagsCourse.objects.all()
