@@ -52,15 +52,30 @@ class MetaTagsAboutUs(models.Model):
         return self.title or "MetaTagsaboutus Entry"
 
 
-class Trialclass(models.Model):
-    full_name = models.CharField(max_length=255)
-    mobile_number = models.TextField(max_length=15)
-    email = models.EmailField(unique=True)
-    class_type = models.CharField(max_length=255)
-    school_college = models.CharField(max_length=255)
-    question1 = models.TextField(blank=True, null=True)
-    question2 = models.TextField(blank=True, null=True)
-    question3 = models.TextField(blank=True, null=True)
-    answers = models.TextField(blank=True, null=True)
+
+from django.db import models
+
+class Question(models.Model):
+    text = models.CharField(max_length=255)  # Example: "Are you interested in a job?"
+
     def __str__(self):
-        return self.full_name
+        return self.text
+
+class Option(models.Model):
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name="options")
+    text = models.CharField(max_length=255)  # Example: "Yes, No, Maybe, Not Now"
+
+    def __str__(self):
+        return self.text
+
+class UserResponse(models.Model):
+    full_name = models.CharField(max_length=100)
+    email = models.EmailField()
+    phone_number = models.CharField(max_length=15)
+    school_name = models.CharField(max_length=255)
+    location = models.CharField(max_length=255)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    selected_option = models.ForeignKey(Option, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.full_name} - {self.selected_option.text}"
