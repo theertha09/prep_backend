@@ -53,6 +53,7 @@ class OptionCreateView(APIView):
 # 4️⃣ Submit user response
 class SubmitResponseView(APIView):
     def post(self, request):
+        id = request.data.get("id")
         full_name = request.data.get("full_name")
         email = request.data.get("email")
         phone_number = request.data.get("phone_number")
@@ -68,6 +69,7 @@ class SubmitResponseView(APIView):
         selected_option = get_object_or_404(Option, id=option_id, question=question)
 
         response, created = UserResponse.objects.get_or_create(
+            id =id,
             full_name=full_name,
             email=email,
             phone_number=phone_number,
