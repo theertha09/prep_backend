@@ -76,6 +76,6 @@ class UserResponse(models.Model):
     location = models.TextField(null=True, blank=True)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     selected_option = models.ForeignKey(Option, on_delete=models.CASCADE)
-
+    class_type = models.TextField()  # Example: "School, College, University"
     def __str__(self):
         return f"{self.full_name} - {self.selected_option.text}"
