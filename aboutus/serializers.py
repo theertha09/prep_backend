@@ -45,5 +45,6 @@ class UserResponseSerializer(serializers.ModelSerializer):
             "question", 
             "question_text", 
             "selected_option", 
-            "selected_option_text"
+            "selected_option_text",
+            "class_type"
         ]

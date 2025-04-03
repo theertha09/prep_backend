@@ -61,6 +61,8 @@ class SubmitResponseView(APIView):
         location = request.data.get("location")
         question_id = request.data.get("question")
         option_id = request.data.get("selected_option")
+        class_type = request.data.get("class_type")
+
 
         if not all([full_name, email, phone_number, school_name, location, question_id, option_id]):
             return Response({"error": "All fields are required."}, status=status.HTTP_400_BAD_REQUEST)
@@ -76,6 +78,7 @@ class SubmitResponseView(APIView):
             school_name=school_name,
             location=location,
             question=question,
+            class_type=class_type,
             defaults={"selected_option": selected_option}
         )
 
