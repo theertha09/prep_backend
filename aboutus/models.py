@@ -73,7 +73,7 @@ class UserResponse(models.Model):
     email = models.EmailField()
     phone_number = models.CharField(max_length=15)
     school_name = models.CharField(max_length=255)
-    location = models.CharField(max_length=255)
+    location = models.TextField(null=True, blank=True)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     selected_option = models.ForeignKey(Option, on_delete=models.CASCADE)
 
