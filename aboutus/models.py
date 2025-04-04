@@ -19,7 +19,7 @@ class MetaTagsAboutUs(models.Model):
 
     # Image Optimization
     image_alt_text = models.CharField(max_length=255, null=True, blank=True)
-    image_filename = models.ImageField(upload_to='seo_aboutus_images/', null=True, blank=True)
+    image_filename = models.TextField(null=True, blank=True)
 
     # Internal & External Links
     internal_links = models.TextField(null=True, blank=True)  # Store as JSON or comma-separated values
