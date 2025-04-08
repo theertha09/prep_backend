@@ -21,14 +21,16 @@ from .models import Question, Option, UserResponse
 from .serializers import QuestionSerializer, OptionSerializer, UserResponseSerializer
 
 
-
-
 class UserResponseListView(generics.ListAPIView):
     queryset = UserResponse.objects.all()
     serializer_class = UserResponseSerializer
 
 # 1️⃣ List all questions with options
 class QuestionListView(generics.ListAPIView):
+    queryset = Question.objects.all()
+    serializer_class = QuestionSerializer
+
+class QuestionRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
 
@@ -49,6 +51,15 @@ class OptionCreateView(APIView):
             serializer.save()
             return Response({"message": "Option created successfully!", "data": serializer.data}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+# class OptionRetrieveAPIView(generics.RetrieveAPIView):
+#     queryset = Option.objects.all()
+#     serializer_class = OptionSerializer
+
+class OptionretrieveUpdateDestoyView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Option.objects.all()
+    serializer_class = OptionSerializer
+    lookup_field = 'pk'
 
 # 4️⃣ Submit user response
 class SubmitResponseView(APIView):

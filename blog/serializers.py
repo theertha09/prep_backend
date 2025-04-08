@@ -11,7 +11,7 @@ class BlogCardSerializers(serializers.ModelSerializer):
 
     class Meta:
         model = BlogCard
-        fields = ['id', 'title', 'category', 'category_name', 'image', 'description']
+        fields = ['id', 'title', 'category', 'category_name', 'image', 'description','alt_img_text','alt_img_caption','alt_img_description','slug']
 
 class MetaTagsBlogSerializer(serializers.ModelSerializer):
     class Meta:
