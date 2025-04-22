@@ -49,6 +49,8 @@ urlpatterns = [
     path('api/',include("contactus.urls")),
     path('api/',include("course.urls")),
     path('api/',include("home.urls")),
+    path('api/',include("login.urls")),
+
     path('api/',include("aboutus.urls")),
     path("api/sitemap.xml", sitemap, {"sitemaps": sitemaps}, name="sitemap"),  # 👈 this is important
 
