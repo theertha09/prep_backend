@@ -1,17 +1,23 @@
-from django.shortcuts import render
-
-# Create your views here.
-from django.shortcuts import render
 from rest_framework import generics
-from .models import  form
-from .serializers import FormSerializer
+from .models import form, userform
+from .serializers import FormSerializer, userformSerializer
 
-class FormsSubmissionCreateView(generics.CreateAPIView):
-    queryset = form.objects.all()
-    serializer_class =FormSerializer
-
-class FormsSubmissionRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+# View for form model
+class FormListCreateAPIView(generics.ListCreateAPIView):
     queryset = form.objects.all()
     serializer_class = FormSerializer
-    lookup_field = 'id'
 
+class FormRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = form.objects.all()
+    serializer_class = FormSerializer
+    lookup_field = 'uuid'  # Use UUID as lookup field
+
+# View for userform model
+class UserformListCreateAPIView(generics.ListCreateAPIView):
+    queryset = userform.objects.all()
+    serializer_class = userformSerializer
+
+class UserformRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = userform.objects.all()
+    serializer_class = userformSerializer
+    lookup_field = 'id'
