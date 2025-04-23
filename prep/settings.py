@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     'home',
     'aboutus',
     'login',
+    'gst',
+    
     
 ]
 MIDDLEWARE = [
@@ -59,6 +61,13 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+
+# constants.py or settings.py
+PHONEPE_MERCHANT_ID = "TEST-M22N7YXXNWWCM_25042"
+PHONEPE_MERCHANT_KEY = "MWQ5YzZkYTYtMzBkZi00ZDE0LWFmOTUtYzI1ZGNhODYzOWVh"
+PHONEPE_BASE_URL = "https://api-preprod.phonepe.com/apis/pg-sandbox"
+PHONEPE_REDIRECT_URL = "http://localhost:8000/payment-success/"  # update later for production
 
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True

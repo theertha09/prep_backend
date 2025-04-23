@@ -1,5 +1,5 @@
 from rest_framework import generics
-from .models import form, userform
+from .models import form, UserForm
 from .serializers import FormSerializer, userformSerializer
 
 # View for form model
@@ -14,10 +14,10 @@ class FormRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
 
 # View for userform model
 class UserformListCreateAPIView(generics.ListCreateAPIView):
-    queryset = userform.objects.all()
+    queryset = UserForm.objects.all()
     serializer_class = userformSerializer
 
 class UserformRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = userform.objects.all()
+    queryset = UserForm.objects.all()
     serializer_class = userformSerializer
     lookup_field = 'id'

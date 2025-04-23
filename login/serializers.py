@@ -1,6 +1,6 @@
 # serializers.py
 from rest_framework import serializers
-from .models import form,userform
+from .models import form, UserForm
 
 class FormSerializer(serializers.ModelSerializer):
     class Meta:
@@ -8,5 +8,5 @@ class FormSerializer(serializers.ModelSerializer):
         fields = '__all__'
 class userformSerializer(serializers.ModelSerializer):
     class Meta:
-        model = userform
+        model = UserForm
         fields = '__all__'
