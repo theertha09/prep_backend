@@ -6,8 +6,8 @@ from .views import (
 
 urlpatterns = [
     # Endpoints for form model
-    path('forms/', FormListCreateAPIView.as_view(), name='form-list-create'),
-    path('forms/<uuid:uuid>/', FormRetrieveUpdateDestroyAPIView.as_view(), name='form-detail'),
+    path('register/', FormListCreateAPIView.as_view(), name='form-list-create'),
+    path('register/<uuid:uuid>/', FormRetrieveUpdateDestroyAPIView.as_view(), name='form-detail'),
 
     # Endpoints for userform model
     path('userforms/', UserformListCreateAPIView.as_view(), name='userform-list-create'),
