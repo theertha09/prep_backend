@@ -50,6 +50,10 @@ urlpatterns = [
     path('api/',include("course.urls")),
     path('api/',include("home.urls")),
     path('api/',include("login.urls")),
+    path('api/',include("gst.urls")),
+    path('api/',include("phone.urls")),
+
+
 
     path('api/',include("aboutus.urls")),
     path("api/sitemap.xml", sitemap, {"sitemaps": sitemaps}, name="sitemap"),  # 👈 this is important

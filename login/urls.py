@@ -1,15 +1,16 @@
 from django.urls import path
-from .views import (
-    FormListCreateAPIView, FormRetrieveUpdateDestroyAPIView,
-    UserformListCreateAPIView, UserformRetrieveUpdateDestroyAPIView
-)
+from . import views
 
 urlpatterns = [
-    # Endpoints for form model
-    path('register/', FormListCreateAPIView.as_view(), name='form-list-create'),
-    path('register/<uuid:uuid>/', FormRetrieveUpdateDestroyAPIView.as_view(), name='form-detail'),
+    path('form/', views.FormListCreateAPIView.as_view(), name='form-list-create'),
+    path('form/<uuid:uuid>/', views.FormRetrieveUpdateDestroyAPIView.as_view(), name='form-retrieve-update-destroy'),
+    
+    path('userform/', views.UserformListCreateAPIView.as_view(), name='userform-list-create'),
+    path('userform/<int:id>/', views.UserformRetrieveUpdateDestroyAPIView.as_view(), name='userform-retrieve-update-destroy'),
 
-    # Endpoints for userform model
-    path('userforms/', UserformListCreateAPIView.as_view(), name='userform-list-create'),
-    path('userforms/<int:id>/', UserformRetrieveUpdateDestroyAPIView.as_view(), name='userform-detail'),
+    # New payment initiation endpoint
+    path('initiate-payment/', views.PaymentInitiateAPIView.as_view(), name='initiate-payment'),
+
+    # New callback endpoint from PhonePe
+    path('payment-callback/', views.PaymentCallbackAPIView.as_view(), name='payment-callback'),
 ]

@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'aboutus',
     'login',
     'gst',
+    'phone',
     
     
 ]
@@ -64,10 +65,14 @@ MIDDLEWARE = [
 
 
 # constants.py or settings.py
-PHONEPE_MERCHANT_ID = "TEST-M22N7YXXNWWCM_25042"
-PHONEPE_MERCHANT_KEY = "MWQ5YzZkYTYtMzBkZi00ZDE0LWFmOTUtYzI1ZGNhODYzOWVh"
-PHONEPE_BASE_URL = "https://api-preprod.phonepe.com/apis/pg-sandbox"
-PHONEPE_REDIRECT_URL = "http://localhost:8000/payment-success/"  # update later for production
+PHONEPE_TEST_CLIENT_ID = 'TEST-M22N7YXXNWWCM_25042'
+PHONEPE_TEST_CLIENT_SECRET = 'MWQ5YzZkYTYtMzBkZi00ZDE0LWFmOTUtYzI1ZGNhODYzOWVh'
+
+# Production Credentials (use for live payments)
+PHONEPE_PRODUCTION_API_KEY = '384df21e-261e-46b2-a975-26cac9fac9ef'
+
+# Optionally, you can set a flag to toggle between test and production
+PHONEPE_ENVIRONMENT = 'test'  # Change this to 'production' when you go live
 
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
