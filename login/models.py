@@ -1,6 +1,7 @@
 import uuid
 from django.db import models
 from decimal import Decimal
+from phone.models import PhoneNumber
 
 from django.db import models
 import uuid
@@ -12,10 +13,10 @@ class form(models.Model):  # PascalCase naming
     password = models.CharField(max_length=255)
     dob = models.DateField(null=True, blank=True)  # New
     gender = models.CharField(max_length=10, choices=[('Male', 'Male'), ('Female', 'Female')])  # Fixed typo
-    mobile_number = models.CharField(max_length=15, null=True, blank=True)
     location = models.CharField(max_length=255, null=True, blank=True)  # New
     exam_target = models.CharField(max_length=255, null=True, blank=True)  # New
     program = models.CharField(max_length=255, null=True, blank=True)  # New
+    firebase_user_id = models.CharField(max_length=255)  # Required field
 
     def __str__(self):
         return self.full_name
@@ -26,7 +27,7 @@ class UserForm(models.Model):
     image = models.ImageField(upload_to='userform/')
     course = models.CharField(max_length=255)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
-
+   
     def __str__(self):
         return self.title
 

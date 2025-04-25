@@ -13,7 +13,7 @@ class userformSerializer(serializers.ModelSerializer):
 class PaymentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Payment
-        fields = ['user', 'course', 'transaction_id', 'payment_id', 'status', 'gst_amount', 'total_amount', 'created_at', 'updated_at']
+        fields = ['user', 'course', 'transaction_id', 'payment_id', 'status', 'gst_amount', 'total_amount', 'created_at', 'updated_at','']
         
     def create(self, validated_data):
         # Calculate GST and total amount before saving
