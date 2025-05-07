@@ -32,9 +32,7 @@ class SectionCategory(models.Model):
         return f"{self.section_name} ({self.subject.subject_name})"
 
 
-# ------------------------
 # User Registration Form
-# ------------------------
 
 class form(models.Model):  # Consider renaming to `Form` (PascalCase)
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
@@ -53,9 +51,7 @@ class form(models.Model):  # Consider renaming to `Form` (PascalCase)
         return self.full_name
 
 
-# ------------------------
 # User Course Form
-# ------------------------
 
 class UserForm(models.Model):
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
@@ -67,15 +63,14 @@ class UserForm(models.Model):
     duration = models.CharField(max_length=255)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     course = models.ForeignKey(courseCategory, on_delete=models.CASCADE, related_name='user_forms')
-    subject = models.ForeignKey(SubjectCategory, on_delete=models.CASCADE, related_name='user_forms')
+    section = models.ForeignKey(SectionCategory, on_delete=models.CASCADE, related_name='user_forms')
 
     def __str__(self):
         return self.title
 
 
-# ------------------------
+
 # Payment Info
-# ------------------------
 
 class UserFormPayment(models.Model):
     PAYMENT_STATUS_CHOICES = [
