@@ -6,7 +6,7 @@ urlpatterns = [
     path('form/<uuid:uuid>/', views.FormRetrieveUpdateDestroyAPIView.as_view(), name='form-retrieve-update-destroy'),
     
     path('userform/', views.UserformListCreateAPIView.as_view(), name='userform-list-create'),
-    path('userform/<int:id>/', views.UserformRetrieveUpdateDestroyAPIView.as_view(), name='userform-retrieve-update-destroy'),
+    path('userform/<uuid:uuid>/', views.UserformRetrieveUpdateDestroyAPIView.as_view(), name='userform-retrieve-update-destroy'),
 
     path('create-order/', views.CreateOrderAPIView.as_view(), name='create-order'),  # <== fix here
     path('verify-payment/', views.VerifyPaymentAPIView.as_view(), name='verify-payment'),  # <== fix here
