@@ -8,9 +8,16 @@ urlpatterns = [
     path('userform/', views.UserformListCreateAPIView.as_view(), name='userform-list-create'),
     path('userform/<int:id>/', views.UserformRetrieveUpdateDestroyAPIView.as_view(), name='userform-retrieve-update-destroy'),
 
-    # New payment initiation endpoint
-    path('initiate-payment/', views.PaymentInitiateAPIView.as_view(), name='initiate-payment'),
+    path('create-order/', views.CreateOrderAPIView.as_view(), name='create-order'),  # <== fix here
+    path('verify-payment/', views.VerifyPaymentAPIView.as_view(), name='verify-payment'),  # <== fix here
 
-    # New callback endpoint from PhonePe
-    path('payment-callback/', views.PaymentCallbackAPIView.as_view(), name='payment-callback'),
+    path('courses/', views.courseListCreateAPIView.as_view(), name='course-list-create'),
+    path('courses/<int:pk>/',views. courseRetrieveUpdateDestroyAPIView.as_view(), name='course-detail'),
+
+    # SubjectCategory endpoints
+    path('subjects/', views.SubjectCategoryListCreateAPIView.as_view(), name='subject-list-create'),
+    path('subjects/<int:pk>/',views. SubjectCategoryRetrieveUpdateDestroyAPIView.as_view(), name='subject-detail'),
+    path('sections/', views.SectionCategoryListCreateAPIView.as_view(), name='section-list-create'),
+    path('sections/<int:pk>/',views. SectionCategoryRetrieveUpdateDestroyAPIView.as_view(), name='section-detail'),
+
 ]

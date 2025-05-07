@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'drf_yasg',
+    'django_filters',
     'blog',
     'contactus',
     'course',
@@ -49,8 +50,7 @@ INSTALLED_APPS = [
     'login',
     'gst',
     'phone',
-    
-    
+    'courses',
 ]
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -65,15 +65,8 @@ MIDDLEWARE = [
 
 
 # constants.py or settings.py
-PHONEPE_TEST_CLIENT_ID = 'TEST-M22N7YXXNWWCM_25042'
-PHONEPE_TEST_CLIENT_SECRET = 'MWQ5YzZkYTYtMzBkZi00ZDE0LWFmOTUtYzI1ZGNhODYzOWVh'
-
-# Production Credentials (use for live payments)
-PHONEPE_PRODUCTION_API_KEY = '384df21e-261e-46b2-a975-26cac9fac9ef'
-
-# Optionally, you can set a flag to toggle between test and production
-PHONEPE_ENVIRONMENT = 'test'  # Change this to 'production' when you go live
-
+RAZORPAY_KEY_ID = 'rzp_test_Mou46QHhq1Bzws'
+RAZORPAY_KEY_SECRET = 'ztHRAFLjdmu2A0mBsuZtZvb3'
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
 

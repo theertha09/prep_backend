@@ -8,7 +8,7 @@ from firebase_admin import credentials, auth
 
 # Check if Firebase is already initialized
 if not firebase_admin._apps:
-    cred = credentials.Certificate('prepbackend-firebase-adminsdk-fbsvc-f70a0f40ef.json')  # Replace with your Firebase Admin SDK key
+    cred = credentials.Certificate('prepbackend-firebase-adminsdk-fbsvc-bb37c8f687.json')  # Replace with your Firebase Admin SDK key
     firebase_admin.initialize_app(cred)
 
 @api_view(['POST'])

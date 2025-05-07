@@ -2,12 +2,24 @@ from rest_framework import generics, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
-from .models import form, UserForm, Payment
-from .serializers import FormSerializer, userformSerializer, PaymentSerializer
+from .models import form, UserForm, UserFormPayment,courseCategory, SubjectCategory,SectionCategory
+from .serializers import FormSerializer, PaymentSerializer,PaymentSerializer,UserFormSerializer,courseCategorySerializers,SubjectCategorySerializer,SectionCategorySerializer
 import uuid
 import requests
 from decimal import Decimal
 from django.conf import settings
+from django.core.exceptions import ImproperlyConfigured
+import hashlib
+import base64
+import json
+import razorpay
+
+
+
+# Razorpay client initialization
+razorpay_client = razorpay.Client(
+    auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET)
+)
 
 
 # View for form model
@@ -25,196 +37,125 @@ class FormRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
 # View for userform model
 class UserformListCreateAPIView(generics.ListCreateAPIView):
     queryset = UserForm.objects.all()
-    serializer_class = userformSerializer
+    serializer_class = UserFormSerializer
 
 
 class UserformRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = UserForm.objects.all()
-    serializer_class = userformSerializer
+    serializer_class = UserFormSerializer
     lookup_field = 'id'
 
 
 # New view to handle payment initiation without authentication
-class PaymentInitiateAPIView(APIView):
-    def post(self, request, *args, **kwargs):
+# Payment Initiate API
+class CreateOrderAPIView(APIView):
+    def post(self, request):
         user_uuid = request.data.get('user_uuid')
-        course_id = request.data.get('course_id')
+        course_uuid = request.data.get('course_uuid')  # <-- Now using UUID for course
+
+        if not user_uuid or not course_uuid:
+            return Response({'error': 'user_uuid and course_uuid are required.'}, status=status.HTTP_400_BAD_REQUEST)
 
         try:
             user = form.objects.get(uuid=user_uuid)
         except form.DoesNotExist:
-            return Response({"detail": "User not found with this UUID"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)
 
-        course = get_object_or_404(UserForm, id=course_id)
-
-        gst_amount = (course.amount * Decimal('0.18')).quantize(Decimal('0.01'))
-        total_amount = course.amount + gst_amount
-
-        payment = Payment.objects.create(
-            user=user,
-            course=course,
-            gst_amount=gst_amount,
-            total_amount=total_amount,
-            transaction_id=str(uuid.uuid4()),
-            payment_id=str(uuid.uuid4()),
-            status='PENDING'
-        )
-
-        phonepe_credentials = self.get_phonepe_credentials()
-        url = "https://api.phonepe.com/v1/payment/initiate"
-        headers = {
-            'Content-Type': 'application/json',
-            'Authorization': f'Bearer {phonepe_credentials["client_secret"]}'
-        }
-
-        data = {
-            'amount': str(total_amount),
-            'order_id': str(payment.transaction_id),
-            'currency': 'INR',
-            'user_id': str(user.uuid),
-        }
-
-        response = requests.post(url, json=data, headers=headers)
-
-        if response.status_code == 200:
-            try:
-                response_data = response.json()
-                payment.payment_id = response_data.get('payment_id')
-                payment.status = 'PENDING'
-                payment.save()
-                return Response({
-                    'status': 'success',
-                    'transaction_id': payment.transaction_id,
-                    'payment_id': payment.payment_id,
-                    'total_amount': payment.total_amount,
-                    'message': 'Payment initiated successfully.'
-                }, status=status.HTTP_200_OK)
-            except ValueError:
-                return Response({
-                    'status': 'error',
-                    'message': 'Invalid JSON response from PhonePe.'
-                }, status=status.HTTP_400_BAD_REQUEST)
-        else:
-            # Log the response for debugging purposes
-            print(response.text)  # Log the raw response for debugging
-            return Response({
-                'status': 'error',
-                'message': 'Request to PhonePe failed. Please try again.'
-            }, status=status.HTTP_400_BAD_REQUEST)
-class PaymentInitiateAPIView(APIView):
-    def post(self, request, *args, **kwargs):
-        # Extract the user UUID and course information from the request data
-        user_uuid = request.data.get('user_uuid')
-        course_id = request.data.get('course_id')
-
-        # Fetch user using the UUID
         try:
-            user = form.objects.get(uuid=user_uuid)
-        except form.DoesNotExist:
-            return Response({"detail": "User not found with this UUID"}, status=status.HTTP_400_BAD_REQUEST)
+            selected_course = UserForm.objects.get(uuid=course_uuid)
+        except UserForm.DoesNotExist:
+            return Response({'error': 'Course not found.'}, status=status.HTTP_404_NOT_FOUND)
 
-        # Fetch the course
-        course = get_object_or_404(UserForm, id=course_id)
+        base_amount = selected_course.amount
+        gst_percentage = Decimal('18.00')
+        gst_amount = (base_amount * gst_percentage) / 100
+        total_amount = base_amount + gst_amount
 
-        # Calculate GST (18% of the course amount)
-        gst_amount = (course.amount * Decimal('0.18')).quantize(Decimal('0.01'))
-        total_amount = course.amount + gst_amount
+        razorpay_order = razorpay_client.order.create({
+            "amount": int(total_amount * 100),
+            "currency": "INR",
+            "payment_capture": 1
+        })
 
-        # Create a new payment entry in the database
-        payment = Payment.objects.create(
+        payment = UserFormPayment.objects.create(
             user=user,
-            course=course,
-            gst_amount=gst_amount,
-            total_amount=total_amount,
-            transaction_id=str(uuid.uuid4()),
-            payment_id=str(uuid.uuid4()),
-            status='PENDING'
+            userform=selected_course,
+            amount=total_amount,
+            razorpay_order_id=razorpay_order['id'],
+            payment_status='pending'
         )
 
-        # Prepare data to send to PhonePe API
-        phonepe_credentials = self.get_phonepe_credentials()
-        url = "https://sandbox.phonepe.com/v1/payment/initiate"  # Sandbox endpoint
-        headers = {
-            'Content-Type': 'application/json',
-            'Authorization': f'Bearer {phonepe_credentials["client_secret"]}'
-        }
-
-        # Prepare the payload
-        data = {
-            'amount': str(total_amount),  # Amount in string format
-            'order_id': str(payment.transaction_id),
-            'currency': 'INR',
-            'user_id': str(user.uuid),  # Assuming you have a UUID for the user
-            # Add other required fields from PhonePe API documentation
-        }
-
-        # Call PhonePe API to initiate the payment
-        response = requests.post(url, json=data, headers=headers)
-
-        # Check if the request to PhonePe was successful
-        if response.status_code == 200:
-            response_data = response.json()
-            # Assume PhonePe returns a payment_id and status
-            payment.payment_id = response_data.get('payment_id')
-            payment.status = 'PENDING'
-            payment.save()
-
-            return Response({
-                'status': 'success',
-                'transaction_id': payment.transaction_id,
-                'payment_id': payment.payment_id,
-                'total_amount': payment.total_amount,
-                'message': 'Payment initiated successfully.'
-            }, status=status.HTTP_200_OK)
-
-        # If PhonePe API request failed
+        serializer = PaymentSerializer(payment)
         return Response({
-            'status': 'error',
-            'message': 'Payment initiation failed. Please try again.'
-        }, status=status.HTTP_400_BAD_REQUEST)
+            'order_id': razorpay_order['id'],
+            'base_amount': base_amount,
+            'gst_amount': gst_amount,
+            'total_amount': total_amount,
+            'currency': "INR",
+            'payment': serializer.data
+        }, status=status.HTTP_201_CREATED)
 
-    def get_phonepe_credentials(self):
-        # Retrieve credentials for PhonePe (either test or production)
-        if settings.PHONEPE_ENVIRONMENT == 'test':
-            return {
-                'client_id': settings.PHONEPE_TEST_CLIENT_ID,
-                'client_secret': settings.PHONEPE_TEST_CLIENT_SECRET
-            }
-        elif settings.PHONEPE_ENVIRONMENT == 'production':
-            return {
-                'api_key': settings.PHONEPE_PRODUCTION_API_KEY
-            }
-        else:
-            raise ValueError("Invalid PhonePe environment")
-# View to handle the payment success/failure callback from PhonePe
-class PaymentCallbackAPIView(APIView):
-    def post(self, request, *args, **kwargs):
-        # Parse the response data from PhonePe (which will contain payment status)
-        payment_data = request.data
 
-        # Find the payment record using the transaction ID
+class VerifyPaymentAPIView(APIView):
+    def post(self, request):
+        payment_id = request.data.get('razorpay_payment_id')
+        order_id = request.data.get('razorpay_order_id')
+        signature = request.data.get('razorpay_signature')
+
         try:
-            payment = Payment.objects.get(transaction_id=payment_data['transaction_id'])
-        except Payment.DoesNotExist:
-            return Response({
-                'status': 'failed',
-                'message': 'Payment not found with this transaction ID.'
-            }, status=status.HTTP_404_NOT_FOUND)
+            payment = UserFormPayment.objects.get(razorpay_order_id=order_id)
+        except UserFormPayment.DoesNotExist:
+            return Response({'error': 'Order not found.'}, status=status.HTTP_404_NOT_FOUND)
 
-        # Update the payment status based on the callback
-        status = payment_data.get('status', '').upper()
+        # Verify Signature
+        params_dict = {
+            'razorpay_order_id': order_id,
+            'razorpay_payment_id': payment_id,
+            'razorpay_signature': signature
+        }
 
-        if status == 'SUCCESS':
-            payment.status = 'SUCCESS'
-        elif status == 'FAILED':
-            payment.status = 'FAILED'
-        else:
-            payment.status = 'UNKNOWN'
+        try:
+            razorpay_client.utility.verify_payment_signature(params_dict)
+        except razorpay.errors.SignatureVerificationError:
+            return Response({'error': 'Signature Verification Failed.'}, status=status.HTTP_400_BAD_REQUEST)
 
+        # Update Payment
+        payment.razorpay_payment_id = payment_id
+        payment.razorpay_signature = signature
+        payment.payment_status = 'paid'
         payment.save()
 
-        # Return appropriate response
+        # Success message with order_id
         return Response({
-            'status': 'success' if payment.status == 'SUCCESS' else 'failed',
-            'message': 'Payment status updated successfully.'
-        }, status=status.HTTP_200_OK if payment.status == 'SUCCESS' else status.HTTP_400_BAD_REQUEST)
+            'message': 'Payment Successful.',
+            'order_id': order_id
+        }, status=status.HTTP_200_OK)
+    
+
+
+# Course views
+class courseListCreateAPIView(generics.ListCreateAPIView):
+    queryset = courseCategory.objects.all()
+    serializer_class = courseCategorySerializers
+
+class courseRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = courseCategory.objects.all()
+    serializer_class = courseCategorySerializers
+
+# Subject views
+class SubjectCategoryListCreateAPIView(generics.ListCreateAPIView):
+    queryset = SubjectCategory.objects.all()
+    serializer_class = SubjectCategorySerializer
+
+class SubjectCategoryRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = SubjectCategory.objects.all()
+    serializer_class = SubjectCategorySerializer
+
+
+class SectionCategoryListCreateAPIView(generics.ListCreateAPIView):
+    queryset = SectionCategory.objects.all()
+    serializer_class = SectionCategorySerializer
+
+class SectionCategoryRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = SectionCategory.objects.all()
+    serializer_class = SectionCategorySerializer
