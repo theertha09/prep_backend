@@ -50,6 +50,8 @@ INSTALLED_APPS = [
     'login',
     'gst',
     'phone',
+    'calculator',
+    'doubtpad',
  
 ]
 MIDDLEWARE = [
