@@ -50,7 +50,7 @@ INSTALLED_APPS = [
     'login',
     'gst',
     'phone',
-    'courses',
+ 
 ]
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

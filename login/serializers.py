@@ -39,16 +39,7 @@ class UserFormSerializer(serializers.ModelSerializer):
 
 # serializers.py
 class PaymentSerializer(serializers.ModelSerializer):
-    username = serializers.CharField(source='user.name', read_only=True)
-    course_name = serializers.CharField(source='userform.title', read_only=True)
-
-    class Meta:
-        model = UserFormPayment
-        fields = '__all__'  # This includes all original model fields
-        # You can also use a manual list like below:
-        # fields = ['id', 'user', 'userform', 'amount', 'razorpay_order_id', 'payment_status', 'username', 'course_name']
-class PaymentSerializer(serializers.ModelSerializer):
-    username = serializers.CharField(source='user.name', read_only=True)
+    username = serializers.CharField(source='form.name', read_only=True)
     course_name = serializers.CharField(source='userform.title', read_only=True)
 
     class Meta:

@@ -159,3 +159,6 @@ class SectionCategoryListCreateAPIView(generics.ListCreateAPIView):
 class SectionCategoryRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = SectionCategory.objects.all()
     serializer_class = SectionCategorySerializer
+class PaymentListAPIView(generics.ListAPIView):
+    queryset = UserFormPayment.objects.all()
+    serializer_class = PaymentSerializer

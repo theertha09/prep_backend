@@ -13,6 +13,7 @@ urlpatterns = [
 
     path('courses/', views.courseListCreateAPIView.as_view(), name='course-list-create'),
     path('courses/<int:pk>/',views. courseRetrieveUpdateDestroyAPIView.as_view(), name='course-detail'),
+    path('payments/',views.PaymentListAPIView.as_view(), name='payment-list'),
 
     # SubjectCategory endpoints
     path('subjects/', views.SubjectCategoryListCreateAPIView.as_view(), name='subject-list-create'),
