@@ -67,8 +67,8 @@ MIDDLEWARE = [
 
 
 # constants.py or settings.py
-RAZORPAY_KEY_ID = 'rzp_test_Mou46QHhq1Bzws'
-RAZORPAY_KEY_SECRET = 'ztHRAFLjdmu2A0mBsuZtZvb3'
+RAZORPAY_KEY_ID = 'rzp_live_EFIxwiYBRJqInn'
+RAZORPAY_KEY_SECRET = 'cCWMVzbIFhtu8JGbdrLLVmXH'
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
 
@@ -113,7 +113,16 @@ DATABASES = {
     }
 }
 
-
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'prepbackend',
+#         'USER': 'postgres',
+#         'PASSWORD': 'postgres123',
+#         'HOST': 'localhost',  # or your DB host
+#         'PORT': '5432',        # default PostgreSQL port
+#     }
+# }
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
